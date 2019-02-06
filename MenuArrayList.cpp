@@ -11,6 +11,7 @@ struct pessoa {
 };
 
 void addElementStart(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg);
+void addElementEnd(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg);
 
 void printListSequential(pessoa *listSequential, int sizeListSequential);
 
@@ -70,7 +71,21 @@ int main() {
 
                 break;
             case 2:
-                cout << "Chosen option was the 2\n";
+                cout << "Chosen option was the 2 - Insert an element at the end of the list\n";
+
+                cout << "Enter a name: ";
+                cin >> name;
+
+                cout << "Enter a rg: ";
+                cin >> rg;
+
+                if ( sizeListSequential == 0 ) {
+                    addElementStart(pointerSequential, &sizeListSequential, name, rg);
+                } else {
+                    addElementEnd(pointerSequential, &sizeListSequential, name, rg);
+                }
+
+
                 break;
             case 3:
                 cout << "Chosen option was the 3\n";
@@ -118,5 +133,21 @@ void addElementStart(pessoa *&pointerSequential, int *sizeListSequential, string
         pointerSequential = aux;
     }
 
+    *sizeListSequential = *sizeListSequential + 1;
+}
+
+void addElementEnd(pessoa *&pointerSequential, int *sizeListSequential, string name, string rg) {
+
+    pessoa *aux = new pessoa[*sizeListSequential + 1];
+
+    for ( int count = 0; count < *sizeListSequential; count++ ) {
+        aux[count].name = pointerSequential[count].name;
+        aux[count].rg = pointerSequential[count].rg;
+    }
+
+    aux[*sizeListSequential].name = name;
+    aux[*sizeListSequential].rg = rg;
+
+    pointerSequential = aux;
     *sizeListSequential = *sizeListSequential + 1;
 }
