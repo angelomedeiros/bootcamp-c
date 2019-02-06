@@ -5,7 +5,7 @@ void printArray(int v[SIZE]);
 void bubbleSort(int array[SIZE]);
 
 int main() {
-    int array[SIZE] = {2,3,1,5,7,9,4,8,0,6};
+    int array[SIZE] = {10,9,8,7,6,5,4,3,2,1};
 
     bubbleSort(array);
 
@@ -30,6 +30,9 @@ void bubbleSort(int array[SIZE]) {
                 array[n] = array[m];
                 array[m] = aux;
             }
+            printf("%d | %d -  ", n, m);
+            printArray(array);
+            printf("\n");
         }
     }
 }
