@@ -12,6 +12,7 @@ struct pessoa {
 
 void addElementStart(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg);
 void addElementEnd(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg);
+void addElementPositionSpecific(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg, int position);
 
 void printListSequential(pessoa *listSequential, int sizeListSequential);
 
@@ -54,6 +55,7 @@ int main() {
 
         clearScreen();
 
+        int position;
         string name;
         string rg;
 
@@ -85,10 +87,27 @@ int main() {
                     addElementEnd(pointerSequential, &sizeListSequential, name, rg);
                 }
 
-
                 break;
             case 3:
-                cout << "Chosen option was the 3\n";
+                cout << "Chosen option was the 3 - Insert an element at the position N of the list\n";
+
+                cout << "Enter a name: ";
+                cin >> name;
+
+                cout << "Enter a rg: ";
+                cin >> rg;
+
+                cout << "Enter a position: ";
+                cin >> position;
+
+                if ( position == 0 ) {
+                    addElementStart(pointerSequential, &sizeListSequential, name, rg);
+                } else if ( position == sizeListSequential ) {
+                    addElementEnd(pointerSequential, &sizeListSequential, name, rg);
+                } else {
+                    addElementPositionSpecific(pointerSequential, &sizeListSequential, name, rg, position);
+                }
+
                 break;
             case 4:
                 cout << "Chosen option was the 4\n";
@@ -147,6 +166,27 @@ void addElementEnd(pessoa *&pointerSequential, int *sizeListSequential, string n
 
     aux[*sizeListSequential].name = name;
     aux[*sizeListSequential].rg = rg;
+
+    pointerSequential = aux;
+    *sizeListSequential = *sizeListSequential + 1;
+}
+
+void addElementPositionSpecific(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg, int position) {
+
+    pessoa *aux = new pessoa[*sizeListSequential + 1];
+
+    for ( int count = 0; count < position; count++ ) {
+        aux[count].name = pointerSequential[count].name;
+        aux[count].rg = pointerSequential[count].rg;
+    }
+
+    aux[position].name = name;
+    aux[position].rg = rg;
+
+    for ( int count = position + 1; count < *sizeListSequential + 1; count++ ) {
+        aux[count].name = pointerSequential[count - 1].name;
+        aux[count].rg = pointerSequential[count -1 ].rg;
+    }
 
     pointerSequential = aux;
     *sizeListSequential = *sizeListSequential + 1;
