@@ -13,6 +13,8 @@ struct pessoa {
 void addElementStart(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg);
 void addElementEnd(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg);
 void addElementPositionSpecific(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg, int position);
+void removeElementStart(pessoa *&pointerSequential ,int *sizeListSequential);
+void removeElementEnd(pessoa *&pointerSequential ,int *sizeListSequential);
 
 void printListSequential(pessoa *listSequential, int sizeListSequential);
 
@@ -110,7 +112,24 @@ int main() {
 
                 break;
             case 4:
-                cout << "Chosen option was the 4\n";
+                cout << "Chosen option was the 4 - Remove an element at the start of the list\n";
+
+                if ( sizeListSequential == 0 ) {
+                    cout << "Empty list!";
+                } else {
+                    removeElementStart(pointerSequential, &sizeListSequential);
+                }
+
+                break;
+            case 5:
+                cout << "Chosen option was the 5 - Remove an element at the end of the list\n";
+
+                if ( sizeListSequential == 0 ) {
+                    cout << "Empty list!";
+                } else {
+                    removeElementEnd(pointerSequential, &sizeListSequential);
+                }
+
                 break;
             case 8:
                 cout << "Chosen option was the 8 - Print the list\n";
@@ -190,4 +209,28 @@ void addElementPositionSpecific(pessoa *&pointerSequential ,int *sizeListSequent
 
     pointerSequential = aux;
     *sizeListSequential = *sizeListSequential + 1;
+}
+
+void removeElementStart(pessoa *&pointerSequential ,int *sizeListSequential) {
+    pessoa *aux = new pessoa[*sizeListSequential - 1];
+
+    for ( int count = 1; count < *sizeListSequential; count++ ) {
+        aux[count - 1].name = pointerSequential[count].name;
+        aux[count - 1].rg = pointerSequential[count].rg;
+    }
+
+    pointerSequential = aux;
+    *sizeListSequential = *sizeListSequential - 1;
+}
+
+void removeElementEnd(pessoa *&pointerSequential ,int *sizeListSequential) {
+    pessoa *aux = new pessoa[*sizeListSequential - 1];
+
+    for ( int count = 0; count < *sizeListSequential -1; count++ ) {
+        aux[count].name = pointerSequential[count].name;
+        aux[count].rg = pointerSequential[count].rg;
+    }
+
+    pointerSequential = aux;
+    *sizeListSequential = *sizeListSequential - 1;
 }
