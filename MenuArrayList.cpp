@@ -15,6 +15,8 @@ void addElementEnd(pessoa *&pointerSequential ,int *sizeListSequential, string n
 void addElementPositionSpecific(pessoa *&pointerSequential ,int *sizeListSequential, string name, string rg, int position);
 void removeElementStart(pessoa *&pointerSequential ,int *sizeListSequential);
 void removeElementEnd(pessoa *&pointerSequential ,int *sizeListSequential);
+void removeElementSpecificPosition(pessoa *&pointerSequential ,int *sizeListSequential, int position);
+string filterPessoaByRgReturnName(pessoa *&pointerSequential, int *sizeListSequential, string rg);
 
 void printListSequential(pessoa *listSequential, int sizeListSequential);
 
@@ -24,7 +26,7 @@ void clearScreen() {
 
 int main() {
 
-    int chosenOption = 0;
+    int chosenOption = 1;
 
     pessoa *pointerSequential;
     int sizeListSequential = 0;
@@ -40,7 +42,7 @@ int main() {
 
     pointerSequential = exampleListSequential; */
 
-    while ( chosenOption < 10 ) {
+    while ( chosenOption < 9 && chosenOption > 0 ) {
         cout << "Options: \n";
         cout << "1 - Insert an element at the start of the list\n";
         cout << "2 - Insert an element at the end of the list\n";
@@ -131,9 +133,49 @@ int main() {
                 }
 
                 break;
+            case 6:
+                cout << "Chosen option was the 6 - Remove an element at the position N of the list\n";
+
+                if ( sizeListSequential == 0 ) {
+                    cout << "Empty list!\n";
+                } else {
+
+                    cout << "Enter a position: ";
+                    cin >> position;
+
+                    if ( position == 0 ) {
+                        removeElementStart(pointerSequential, &sizeListSequential);
+                    } else if ( position == sizeListSequential - 1 ) {
+                        removeElementEnd(pointerSequential, &sizeListSequential - 1);
+                    } else {
+                        removeElementSpecificPosition(pointerSequential, &sizeListSequential, position);
+                    }
+                }
+
+                break;
+            case 7:
+                cout << "Chosen option was the 7 - Search an element with field RG\n";
+
+                if ( sizeListSequential == 0 ) {
+                    cout << "Empty list!\n";
+                } else {
+
+                    cout << "Enter a rg: ";
+                    cin >> rg;
+
+                    cout << "The name corresponding to the rg is " << filterPessoaByRgReturnName(pointerSequential, &sizeListSequential, rg) << "\n";
+                }
+
+                break;
             case 8:
                 cout << "Chosen option was the 8 - Print the list\n";
-                printListSequential(pointerSequential, sizeListSequential);
+
+                if ( sizeListSequential == 0 ) {
+                    cout << "Empty list!\n";
+                } else {
+                    printListSequential(pointerSequential, sizeListSequential);
+                }
+
                 break;
         }
     }
@@ -233,4 +275,36 @@ void removeElementEnd(pessoa *&pointerSequential ,int *sizeListSequential) {
 
     pointerSequential = aux;
     *sizeListSequential = *sizeListSequential - 1;
+}
+
+void removeElementSpecificPosition(pessoa *&pointerSequential ,int *sizeListSequential, int position) {
+
+    pessoa *aux = new pessoa[*sizeListSequential - 1];
+
+    for ( int count = 0; count < position; count++ ) {
+        aux[count].name = pointerSequential[count].name;
+        aux[count].rg = pointerSequential[count].rg;
+    }
+
+    for ( int count = position; count < *sizeListSequential - 1; count++ ) {
+        aux[count].name = pointerSequential[count + 1].name;
+        aux[count].rg = pointerSequential[count + 1].rg;
+    }
+
+    pointerSequential = aux;
+    *sizeListSequential = *sizeListSequential - 1;
+}
+
+string filterPessoaByRgReturnName(pessoa *&pointerSequential, int *sizeListSequential, string rg) {
+
+    string name = "Name not found!";
+
+    for ( int count = 0; count < *sizeListSequential; count++ ) {
+        if ( pointerSequential[count].rg ==  rg ) {
+            return pointerSequential[count].name;
+        }
+    }
+
+    return name;
+
 }
