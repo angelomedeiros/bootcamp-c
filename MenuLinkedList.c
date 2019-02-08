@@ -1,6 +1,6 @@
-#include <iostream>
-#include <new>
-#include <string>
+
+
+
 #include <stdlib.h>
 
 using namespace std;
@@ -16,8 +16,6 @@ void addEndLinkedList(person *&linkedPointer, string name, string rg);
 void addSpecificPositionLinkedList(person *&linkedPointer, string name, string rg, int position);
 void removeStartLinkedList(person *&linkedPointer);
 void removeEndLinkedList(person *&linkedPointer);
-void removeElementSpecificPosition(person *&linkedPointer, int position);
-string searchAnElementByRG(person *& linkedPointer, string rg);
 
 void printLinkedList(person *linkedPointer);
 int sizeLinkedList(person *linkedPointer);
@@ -30,7 +28,8 @@ int main() {
 
     int chosenOption = 1;
 
-    person *linkedPointer = new person;
+//    person *linkedPointer = new person;
+    person *linkedPointer = (person *) malloc(sizeof(person));
 
     linkedPointer->name = "";
     linkedPointer->rg = "";
@@ -135,30 +134,6 @@ int main() {
                 } else {
                     removeEndLinkedList(linkedPointer);
                 }
-
-                break;
-            case 6:
-                cout << "Chosen option was the 6 - Remove an element at the position N of the list\n";
-
-                cout << "Enter a position: ";
-                cin >> position;
-
-                if ( position == 0 || sizeLinkedList(linkedPointer) == 1 ) {
-                    removeStartLinkedList(linkedPointer);
-                } else if ( position == sizeLinkedList(linkedPointer) ) {
-                    removeEndLinkedList(linkedPointer);
-                } else {
-                    removeElementSpecificPosition(linkedPointer, position);
-                }
-
-                break;
-            case 7:
-                cout << "Chosen option was the 7 - Search an element with field RG\n";
-
-                cout << "Enter a rg: ";
-                cin >> rg;
-
-                cout << "The name correspondig to the RG is " << searchAnElementByRG(linkedPointer, rg) << "\n";
 
                 break;
             case 8:
@@ -298,42 +273,4 @@ void removeEndLinkedList(person *&linkedPointer){
 
     auxNext->next = NULL;
 
-}
-
-void removeElementSpecificPosition(person *&linkedPointer, int position) {
-
-
-    person *pointerPrev = new person;
-    person *aux = new person;
-
-    int count = 0;
-
-    while ( linkedPointer != NULL ) {
-
-
-        if ( count == position - 1 ) {
-            pointerPrev = linkedPointer;
-            aux = pointerPrev->next;
-            pointerPrev->next = aux->next;
-            return;
-        }
-
-        linkedPointer = linkedPointer->next;
-        count++;
-
-    }
-
-}
-
-string searchAnElementByRG(person *& linkedPointer, string rg) {
-
-    person *aux = linkedPointer;
-
-    while ( aux != NULL ) {
-        if ( aux->rg == rg ) {
-            return aux->name;
-        }
-        aux = aux->next;
-    }
-    return "Not found!";
 }
